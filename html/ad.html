@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Trang Web Bán Sách</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header, nav, .content, footer {
+    padding: 20px;
+}
+
+header {
+    background-color: #f0f0f0;
+    text-align: center;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 10px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #333;
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
+}
+
+section {
+    flex-basis: 48%;
+}
+
+footer {
+    background-color: #f0f0f0;
+    text-align: center;
+}
+
+    </style>
+    <header>
+        <h1>Trang Web Bán Sách</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="/index.html">Trang chủ</a></li>
+            <li><a href="#">Sản phẩm</a></li>
+            <li><a href="/html/cart.html">Giỏ hàng</a></li>
+            <li><a href="/html/login.html">Đăng nhập</a></li>
+        </ul>
+    </nav>
+
+    <div class="content">
+        <section id="user-management">
+            <h2>Quản lý người dùng</h2>
+            <ul id="user-list"></ul>
+            <button onclick="activateUser()">Kích hoạt người dùng</button>
+        </section>
+
+        <section id="product-management">
+            <h2>Quản lý sản phẩm</h2>
+            <ul id="product-list"></ul>
+            <button onclick="addProduct()">Thêm sản phẩm</button>
+        </section>
+    </div>
+
+    <footer>
+        <p>Bản quyền © 2023 - Trang Web Bán Sách</p>
+    </footer>
+    <script>
+
+var users = [
+    { id: 1, name: "User 1", isActive: false },
+    { id: 2, name: "User 2", isActive: true },
+    { id: 3, name: "User 3", isActive: false }
+];
+
+var products = [
+    { id: 1, name: "Sản phẩm 1" },
+    { id: 2, name: "Sản phẩm 2" },
+    { id: 3, name: "Sản phẩm 3" }
+];
+
+function displayUsers() {
+    var userList = document.getElementById("user-list");
+    userList.innerHTML = "";
+
+    for (var i = 0; i < users.length; i++) {
+        var userItem = document.createElement("li");
+        userItem.innerHTML = users[i].name + " - " + (users[i].isActive ? "Đã kích hoạt" : "Chưa kích hoạt");
+        userList.appendChild(userItem);
+    }
+}
+
+function activateUser() {
+    var userId = prompt("Nhập ID người dùng để kích hoạt:");
+
+    for (var i = 0; i < users.length; i++) {
+        if (users[i].id == userId) {
+            users[i].isActive = true;
+            break;
+        }
+    }
+
+    displayUsers();
+}
+
+function displayProducts() {
+    var productList = document.getElementById("product-list");
+    productList.innerHTML = "";
+
+    for (var i = 0; i < products.length; i++) {
+        var productItem = document.createElement("li");
+        productItem.innerHTML = products[i].name;
+        productList.appendChild(productItem);
+    }
+}
+
+function addProduct() {
+    var productName = prompt("Nhập tên sản phẩm mới:");
+
+    var newProduct = {
+        id: products.length + 1,
+        name: productName
+    };
+
+    products.push(newProduct);
+
+    displayProducts();
+}
+
+window.onload = function () {
+    displayUsers();
+    displayProducts();
+};
+
+    </script>
+
+    <script src="script.js"></script>
+</body>
+</html>

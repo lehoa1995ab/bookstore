@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="style/index.css">
+</head>
+<body>
+
+    <div id="pageTop">
+        
+        <div class="link-list">
+            <a href="./html/bill.html" onclick="bill()" style="display: none;" class="bill">Lịch sử mua hàng</a>
+            <a href="./html/cart.html" onclick="pay()">Thanh toán</a>
+            <a href="" onclick="checkLogout()" class="logout" style="display: none;">Đăng xuất</a>
+            <a href="./html/register.html" onclick="checkRegister()" class="register">Đăng ký</a>
+            <a href="./html/login.html" onclick="checkLogin()" class="login">Đăng nhập</a>
+        </div>
+        <div class="logo">
+            <h1 onclick="goToAdmin()">Bookstory</h1>
+            <a href="./html/giaohang.html" onclick="gh()" class="ri-truck-line">GIAO HÀNG FREE</a>
+            <a href="./html/doitra.html" onclick="dt()" class="ri-text-wrap">ĐỔI TRẢ FREE</a>
+            <a href="./html/hotro.html" onclick="ht()" class="ri-questionnaire-fill">HỖ TRỢ</a>
+            <a href="./html/phanhoi.html" onclick="ph()" class="ri-feedback-line">PHẢN HỒI</a>
+            <div class="cart">
+                <a href="./html/cart.html">
+                    <span class="ri-shopping-cart-line"onclick="showCartUser()">
+                    </span>
+                    <span id="totalCountBooks" class="total-books"></span>
+                </a>
+            </div>
+            <!-- <a class="button">
+                <button><i class="ri-shopping-cart-line"></i></button>
+                <span>Sản phẩm</span>
+            </a> -->
+        </div>
+        <div class="header">
+            <a class="section" id="all" href="" onclick=" renderListBooks()">TRANG CHỦ</a>
+            <a href="./html/gioithieu.html" onclick="gt()">GIỚI THIỆU</a>
+            <a href="" onclick="sp(this)" id="product">SẢN PHẨM</a>
+            <a href="./html/tintuc.html" onclick="tt()">TIN TỨC</a>
+            <a href="./html/lienhe.html" onclick="lh()">LIÊN HỆ</a>
+            <div>
+                <input type="text" id="searchByName" placeholder="Search By Name" oninput="searchByName()" style="height: 30px;">
+                <button>
+                    <i class="ri-search-line"></i>
+                </button>
+            </div>
+        </div>
+        <div class="headerfooter" id="tableSanpham"style="display:none;" >
+            <table class="tableSanpham">
+                <tr>
+                    <td onclick="bc()">Sách bán chạy</td>
+                    <td onclick="pl()">Sách Chính trị – pháp luật</td>
+                    <td onclick="gt()">Sách Giáo trình</td>
+                    <td onclick="khcn()">Sách Khoa học công nghệ – Kinh tế</td>
+                    <td onclick="tn()">Sách thiếu nhi</td>
+                    <td onclick="vh()">Sách Văn học nghệ thuật</td>
+
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+        <!-- <div class="sale">
+        <div class="book-item">
+            <div class="book-item-img">
+                <img src="img/Giáo Dục Đạo Đức.jpeg" alt="">
+            </div>
+            <p class="title-name"> Giáo Dục Đạo Đức</p>
+            <div class="cart-item">
+                <span> PRICE : 250000đ </span>
+                <span class="ri-shopping-cart-line"></span>
+            </div>
+            <div class="book-item">
+                <div class="book-item-img">
+                    <img src="img/Đơn giản hơn, tinh tế hơn.jpeg" alt="">
+                </div>
+                <p class="title-name">Đơn giản hơn, tinh tế hơn </p>
+                <div class="cart-item">
+                    <span> PRICE : 250000đ </span>
+                    <span class="ri-shopping-cart-line"></span>
+                </div>
+                <div class="book-item">
+                    <div class="book-item-img">
+                        <img src="img/Vì Sao Bạn Ế?.png" alt="">
+                    </div>
+                    <p class="title-name"> Vì Sao Bạn Ế?</p>
+                    <div class="cart-item">
+                        <span> PRICE : 250000đ </span>
+                        <span class="ri-shopping-cart-line"></span>
+                    </div>
+                </div>
+    </div> -->
+    <!-- <div class="imageInfo">
+        <div class="text1">
+             <div class="h2">KHO TÀNG TRI THỨC</div> 
+            <img src="./img/anhăâ.avif" alt="">
+        </div>
+        <div class="text2">
+            <div class="h3">MỖI NGÀY MỘT CUỐN SÁCH</div>
+            <img src="./img/anhă.avif" alt="">
+        </div>
+    </div> -->
+    <div class="listbooks" id="listbooks">
+        <!-- <div class="book-item">
+            <div class="book-item-img">
+                <img src="img/Giáo Dục Đạo Đức.jpeg" alt="">
+            </div>
+            <p class="title-name"> Giáo Dục Đạo Đức</p>
+            <div class="cart-item">
+                <span> PRICE : 250000đ </span>
+                <span class="ri-shopping-cart-line"></span>
+            </div>
+            <div class="book-item">
+                <div class="book-item-img">
+                    <img src="img/Đơn giản hơn, tinh tế hơn.jpeg" alt="">
+                </div>
+                <p class="title-name">Đơn giản hơn, tinh tế hơn </p>
+                <div class="cart-item">
+                    <span> PRICE : 250000đ </span>
+                    <span class="ri-shopping-cart-line"></span>
+                </div>
+                <div class="book-item">
+                    <div class="book-item-img">
+                        <img src="img/Vì Sao Bạn Ế?.png" alt="">
+                    </div>
+                    <p class="title-name"> </p>
+                    <div class="cart-item">
+                        <span> PRICE : 250000đ </span>
+                        <span class="ri-shopping-cart-line"></span>
+                    </div>
+                </div> -->
+    </div>
+
+    <div class="list-page" >
+        <span onclick=decreasePage() class="ri-arrow-left-line"></span>
+        <ul id="listPage">
+            <!-- <li></li>
+         -->
+        </ul>
+        <span onclick=increasePage() class="ri-arrow-right-fill"></span>
+    </div> 
+    </div>
+    <hr>
+    
+      <div id="marquee">
+        <div id="text">
+            <p> Để tri ân khách hàng chúng tôi đang có chương trình khuyến mãi lên đến 50%</p>
+            <p> Hãy khám phá thế giới của tri thức và phiêu lưu với những cuốn sách tuyệt vời.<br>
+            Tự học, khám phá và truyền cảm hứng.  Bạn đang tìm kiếm cuốn sách nào? Hãy ghé thăm <br>
+       cửa hàng sách trực tuyến của chúng tôi ngay hôm nay!</p>
+        </div>
+      </div>
+    <script src="js/index.js"></script>
+</body>
+
+</html>

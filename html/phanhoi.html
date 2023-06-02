@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .input {
+        width: 100%;
+        height: 30px;
+        display: flex;
+    }
+
+
+    form {
+        width: 600px;
+        height: 600px;
+        background: #cccccc;
+        margin: 100px auto;
+        padding: 20px;
+        border-radius: 10px;
+
+    }
+
+    s.rating {
+        display: inline-block;
+    }
+
+    .rating input {
+        display: none;
+    }
+
+    .rating label {
+        font-size: 30px;
+        color: gray;
+        cursor: pointer;
+    }
+
+    .rating label:hover,
+    .rating label:before {
+        content: "\2605";
+    }
+
+    .rating label:hover~label {
+        color: gold;
+    }
+
+    .rating input:checked~label {
+        color: gold;
+    }
+</style>
+
+<body>
+    <form id="comment-form">
+        <h2 style="text-align: center;">Add Comment</h2>
+        <h3 style="text-align: center;">Cảm ơn tất cả qúy khách phản hồi và đánh giá trang web ngày càng hoàn thiện hơn
+        </h3>
+        <div id="comments"></div>
+        <div class="input">
+            <input type="text" id="username-input" placeholder="Tên người dùng" required style="flex:1;">
+            <input id="comment-input" placeholder="Bình luận" required style="flex: 3;">
+        </div>
+        <div class="rating">
+            <input type="radio" id="star5" name="rating" value="5">
+            <label for="star5"></label>
+            <input type="radio" id="star4" name="rating" value="4">
+            <label for="star4"></label>
+            <input type="radio" id="star3" name="rating" value="3">
+            <label for="star3"></label>
+            <input type="radio" id="star2" name="rating" value="2">
+            <label for="star2"></label>
+            <input type="radio" id="star1" name="rating" value="1">
+            <label for="star1"></label>
+        </div>
+        <button type="submit">Gửi</button>
+    </form>
+    </div>
+    <script>
+        // Mảng chứa các bình luận
+        let comments = [];
+        // Lấy phần tử HTML và đăng ký sự kiện submit form
+        var commentForm = document.getElementById("comment-form");
+        commentForm.addEventListener("submit", function (event) {
+            event.preventDefault(); // Ngăn chặn việc tải lại trang khi submit form
+
+            // Lấy giá trị từ input và textarea
+            let usernameInput = document.getElementById("username-input");
+            let commentInput = document.getElementById("comment-input");
+            let username = usernameInput.value;
+            let comment = commentInput.value;
+            let rating = document.querySelector('input[name="rating"]:checked').value;
+            // Thêm bình luận vào mảng
+            comments.push({ username: username, comment: comment, rating: rating });
+
+            // Xóa giá trị trong input và textarea
+            usernameInput.value = "";
+            commentInput.value = "";
+            var ratingInputs = document.getElementsByName('rating');
+            for (var i = 0; i < ratingInputs.length; i++) {
+                ratingInputs[i].checked = false;
+            }
+
+            // Hiển thị bình luận mới
+            displayComments();
+        });
+
+
+        // Cập nhật giao diện bình luận
+        function displayComments() {
+            var commentsDiv = document.getElementById("comments");
+            commentsDiv.innerHTML = ""; // Xóa bình luận hiện tại
+
+            comments.forEach(function (comment) {
+                var commentDiv = document.createElement("div");
+                var headerDiv = document.createElement("div");
+                var usernameSpan = document.createElement("span");
+                var ratingDiv = document.createElement("div");
+                var commentText = document.createTextNode(comment.comment);
+
+                usernameSpan.textContent = comment.username + ": ";
+                headerDiv.appendChild(usernameSpan);
+                commentDiv.appendChild(headerDiv);
+                commentDiv.appendChild(ratingDiv);
+                commentDiv.appendChild(commentText);
+                commentsDiv.appendChild(commentDiv);
+
+            });
+        }
+
+
+           // Thêm sao đánh giá
+    </script>
+</body>
+
+</html>

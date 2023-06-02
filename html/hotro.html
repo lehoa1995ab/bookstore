@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .input {
+        width: 100%;
+        height: 30px;
+        display: flex;
+    }
+
+
+    form {
+        width: 600px;
+        height: 600px;
+        background: #cccccc;
+        margin: 100px auto;
+        padding: 20px;
+        border-radius: 10px;
+    }
+    button{
+        width: 150px;
+        height: 30px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        background: #523eec;
+        margin-top: 10px;
+       color: #fff;
+    }
+
+</style>
+
+<body>
+    <form id="comment-form">
+        <h2 style="text-align: center;">Chúng tôi luôn sẵn sàng hỗ trợ mọi thắc mắc của qúy khách</h2>
+        <h2 style="text-align: center;">Add Comment</h2>
+        <div id="comments"></div>
+        <div class="input">
+            <input type="text" id="username-input" placeholder="Tên người dùng" required style="flex:1;">
+            <input id="comment-input" placeholder="Bình luận" required style="flex: 3;">
+        </div>
+        <button type="submit">Gửi</button>
+    </form>
+    </div>
+    <script>
+        // Mảng chứa các bình luận
+        let comments = [];
+        // Lấy phần tử HTML và đăng ký sự kiện submit form
+        var commentForm = document.getElementById("comment-form");
+        commentForm.addEventListener("submit", function (event) {
+            event.preventDefault(); // Ngăn chặn việc tải lại trang khi submit form
+
+            // Lấy giá trị từ input và textarea
+            let usernameInput = document.getElementById("username-input");
+            let commentInput = document.getElementById("comment-input");
+            let username = usernameInput.value;
+            let comment = commentInput.value;
+            // Thêm bình luận vào mảng
+            comments.push({ username: username, comment: comment});
+
+            // Xóa giá trị trong input 
+            usernameInput.value = "";
+            commentInput.value = "";
+            // Hiển thị bình luận mới
+            displayComments();
+        });
+
+
+        // Cập nhật giao diện bình luận
+        function displayComments() {
+            var commentsDiv = document.getElementById("comments");
+            commentsDiv.innerHTML = ""; // Xóa bình luận hiện tại
+
+            comments.forEach(function (comment) {
+                var commentDiv = document.createElement("div");
+                var headerDiv = document.createElement("div");
+                var usernameSpan = document.createElement("span");
+                var ratingDiv = document.createElement("div");
+                var commentText = document.createTextNode(comment.comment);
+
+                usernameSpan.textContent = comment.username + ": ";
+                headerDiv.appendChild(usernameSpan);
+                commentDiv.appendChild(headerDiv);
+                commentDiv.appendChild(ratingDiv);
+                commentDiv.appendChild(commentText);
+                commentsDiv.appendChild(commentDiv);
+
+            });
+        }
+
+
+           // Thêm sao đánh giá
+    </script>
+</body>
+
+</html>

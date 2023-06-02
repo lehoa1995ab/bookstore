@@ -1,0 +1,231 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <h2>LỊCH SỬ MUA HÀNG</h2>
+        <table border="1px" cellspacing="10px" cellpadding="15px" id="render">
+            <!-- <tr>
+            <th> STT </th>
+            <th> Tên Sản phẩm </th>
+            <th> Giá </th>
+            <th> Số lượng </th>
+            <th> Tiền </th>
+            <th> Xoá </th>
+           </tr>  -->
+             <!-- <tr>
+                <td>1</td>
+                <td>iphone </td>
+                <td>30000</td>
+                <td class="quantity">
+                    <span class="material-symbols-outlined">
+                        remove
+                    </span>
+                    5
+                    <span class="material-symbols-outlined">
+                        add
+                    </span>
+                </td>
+                <td>
+                    2255454
+                </td>
+                <td>
+                    <span class="material-symbols-outlined">
+                        delete
+                    </span>
+                </td>
+            </tr>  
+            <tr>
+                <td rowspan="5">Tổng số tiền cần thanh toán</td>
+                <td rowspan="2"></td>
+            </tr> -->
+        </table>
+     
+    </div>
+    <script>
+
+        const USDollar = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+        });
+        const VND = new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+        });
+
+        // function xóa sản phẩm trong giỏ hàng
+        function deleteBook(index) {
+            let listUser = JSON.parse(localStorage.getItem("listUser"));
+            let idLogin = localStorage.getItem("checkLogin");
+            for (let i = 0; i < listUser.length; i++) {
+                if (idLogin == listUser[i].idUser) {
+                    let cartUser = listUser[i].cartUser;
+                    for (let j = 0; j < cartUser.length; j++) {
+                        if (index == j) {
+                            cartUser.splice(j,1);
+                            localStorage.setItem("listUser", JSON.stringify(listUser));
+                           showCartUser();
+                            return;    
+                        }
+                        
+                    }
+                    return;
+                }
+            }
+        }
+        let total=0;
+        function showCartUser() {
+            let idLogin = localStorage.getItem("checkLogin");
+            let listUsers = JSON.parse(localStorage.getItem("listUser"));
+            for (let i = 0; i < listUsers.length; i++) {
+                if (listUsers[i].idUser == idLogin) {
+                    //console.log("giu lieu gio hang",listUsers[i].cartUser); //　now cart
+                    result = "";
+                    for (let h in listUsers[i].lichSuMua) {
+                        total+=listUsers[i].lichSuMua[h].price * listUsers[i].lichSuMua[h].quantity+total
+                        
+                        result +=
+                            `
+                            <tr>
+                                    <td>${h + 1}</td>
+                                    <td><img src="../${listUsers[i].lichSuMua[h].src}" alt=""> </td>
+                                    <td>${listUsers[i].lichSuMua[h].name} </td>
+                                    <td>${VND.format(listUsers[i].lichSuMua[h].price)}</td>
+                                    <td class="quantity">
+                                        <span class="material-symbols-outlined" onclick="decrease('${listUsers[i].lichSuMua[h].id}')">
+                                          
+                                        </span>
+                                            ${listUsers[i].lichSuMua[h].quantity}
+                                        <span onclick="increase('${listUsers[i].lichSuMua[h].id}')" class="material-symbols-outlined" >
+                                           
+                                        </span>
+                                    </td>
+                                    <td>
+                                       ${VND.format(listUsers[i].lichSuMua[h].price * listUsers[i].lichSuMua[h].quantity)}
+                                    </td>
+                                   
+                                
+                            </tr> 
+    
+            
+                            
+                                        `
+                    }
+                    //console.log(total);
+                    document.getElementById("render").innerHTML =
+                        `
+                        <tr>
+                            <th> STT </th>
+                            <th> Ảnh Sản phẩm </th>
+                            <th> Tên Sản phẩm </th>
+                            <th> Giá </th>
+                            <th> Số lượng </th>
+                            <th> Tiền </th>
+    
+                        </tr> 
+                   
+                        ${result}
+                       `
+                    result = "";
+                    return
+                    let allIdBooks = [];
+                    for (let j = 0; j < listUsers[i].lichSuMua.length; j++) {
+                        allIdBooks.push(listUsers[i].lichSuMua[j].id);
+                    }
+                    let filterIdDuplicate = [...new Set(allIdBooks)];
+                    let resultFilter = [];
+                    for (let k = 0; k < filterIdDuplicate.length; k++) {
+                        for (let m = 0; m < listUsers[i].lichSuMua.length; m++) {
+                            if (filterIdDuplicate[k] == listUsers[i].lichSuMua[m].id) {
+                                resultFilter.push(listUsers[i].lichSuMua[m])
+                                break;
+                            }
+                        }
+                    }
+                    
+                }
+
+            }
+
+        }
+        // showCartUser();
+        // // function tăng số lượng trong giỏ hàng
+        // function increase(id) {
+        //     let listUser = JSON.parse(localStorage.getItem("listUser"));
+        //     let idLogin = localStorage.getItem("checkLogin");
+        //     for (let i = 0; i < listUser.length; i++) {
+        //         if (idLogin == listUser[i].idUser) {
+        //             for (let j = 0; j < listUser[i].cartUser.length; j++) {
+        //                 if (id == listUser[i].cartUser[j].id) {
+        //                     listUser[i].cartUser[j].quantity = ++listUser[i].cartUser[j].quantity;
+        //                     localStorage.setItem("listUser", JSON.stringify(listUser));
+        //                     showCartUser();
+        //                     return;
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
+        // // function giảm số lượng trong giỏ hàng
+
+        // function decrease(id) {
+        //     let listUsers = JSON.parse(localStorage.getItem("listUser"));
+        //     let idLogin = localStorage.getItem("checkLogin");
+        //     for (let i = 0; i < listUsers.length; i++) {    
+        //         if (idLogin == listUsers[i].idUser) {
+        //             /* if (listUsers[i].cartUser[index].quantity > 1) */ {
+        //                 for (let j = 0; j < listUsers[i].cartUser.length; j++) {
+        //                     if (id == listUsers[i].cartUser[j].id) {
+        //                         if (listUsers[i].cartUser[j].quantity == 1) {   
+        //                             if (confirm("Ban muon xoa san pham ?")) {
+        //                                 // tien hanh xoa
+        //                                 listUsers[i].cartUser.splice(j, 1);
+        //                                 localStorage.setItem("listUser", JSON.stringify(listUsers));
+        //                                 showCartUser()
+        //                             }
+        //                             return
+        //                         }   
+        //                         listUsers[i].cartUser[j].quantity--;
+        //                         localStorage.setItem("listUser", JSON.stringify(listUsers));
+        //                         showCartUser()
+                        
+        //                     }   
+        //                         }   
+        //                     }
+        //                 }
+        //         }
+            
+        
+        
+        // }
+        
+        // function totalBook(){
+            //     let listUsers = JSON.parse(localStorage.getItem("listUser"));
+            //     let idLogin = localStorage.getItem("checkLogin");
+            //     for (let i = 0; i < listUsers.length; i++) {
+                //         if (idLogin == listUsers[i].idUser) {
+                    //             for (let j = 0; j < listUsers[i].cartUser.length; j++) {
+                        //                 total   
+                        //                 document.getElementsByClassName("total").innerHTML = "Tổng tiền:$ " + total + " đồng";
+                        //                 showCartUser();
+                        
+                        //             }
+                        //         }
+                        
+                        //         }
+                        
+                        //         }
+                       
+    
+    </script>
+</body>
+</html>
