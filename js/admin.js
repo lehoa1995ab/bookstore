@@ -122,6 +122,9 @@ function controlStatusBlockUser(userId) {
     }
     return false
 }
+
+
+
 function getBookList() {
     let bookList = JSON.parse(localStorage.getItem("listBooks"));
     if (!bookList) {
@@ -129,48 +132,66 @@ function getBookList() {
     }
     return bookList
 }
+
 function addBookToList(book) {
     let bookList = getBookList();
     bookList.push(book);
     localStorage.setItem("listBooks", JSON.stringify(bookList));
 }
+
 const USDollar = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
 });
+
+
 const VND = new Intl.NumberFormat('vi-VN', {
     style: 'currency',
     currency: 'VND',
 });
+
+function deleteBook(bookId) {
+    const bookList = getBookList();
+    for (let i in bookList) {
+        if (bookList[i].id == bookId) {
+            bookList.splice(i, 1);
+            localStorage.setItem("listBooks", JSON.stringify(bookList)); // save to local
+            showBookListToUi();
+            return
+        }
+    }
+}
+
 function showBookListToUi() {
     let table1 = document.getElementById("tableBook");
     let tableContent = "";
     let bookList = getBookList();
-        tableBook += `
-        <tr>
-        <th class="tabe-book">ten san pham:</th>
-        <th class="tabe-book">gia</th>
-        <th class="tabe-book"anh</th>
-        <th class="tabe-book">the loai</th>
-        <th class="tabe-book">Tools</th>
-        </tr>
+    tableContent = `
+            <tr>
+                <th class="tabe-book">ten san pham:</th>
+                <th class="tabe-book">gia</th>
+                <th class="tabe-book"anh</th>
+                <th class="tabe-book">the loai</th>
+                <th class="tabe-book">Tools</th>
+            </tr>
         `;
-        for (book of getBookList()) {
-            tableBook += `
+        for (book of bookList) {
+            tableContent += `
         <tr>
-        <td class="tabe-book">${book.name}</td>
-        <td class="tabe-book">${VND.format(book.price)}</td>
-        <td class="tabe-book">${book.src}</td>
-        <td class="tabe-book">${book.type}</td>
-        <td class="tabe-book">
-        <button class="btn-edit-book" onclick="editBook(${book.id})">Edit</button>
-        <button class="btn-delete-book" onclick="deleteBook(${book.id})">Delete</button>  
-        </td>
+            <td class="tabe-book">${book.name}</td>
+            <td class="tabe-book">${VND.format(book.price)}</td>
+            <td class="tabe-book">${book.src}</td>
+            <td class="tabe-book">${book.type}</td>
+            <td class="tabe-book">
+                <button class="btn-edit-book" onclick="editBook(${book.id})">Edit</button>
+                <button class="btn-delete-book" onclick="deleteBook(${book.id})">Delete</button>  
+            </td>
         </tr>
         `
         }
-        table1.innerHTML = tableBook;
+        table1.innerHTML = tableContent;
 }
+
 showBookListToUi();
 
 function editBook(id) {
